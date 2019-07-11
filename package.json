@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Clipboard share via http supporting multiple MIME, multiple platforms",
   "main": "server.js",
+  "bin": {
+    "clipbrd-share-server": "./bin/server.js",
+    "clipbrd-share-client": "./bin/client.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
@@ -22,6 +26,7 @@
     "eslint-plugin-standard": "^4.0.0"
   },
   "dependencies": {
+    "clipboardy": "^2.1.0",
     "fs-extra": "^8.1.0",
     "socket.io-client": "^2.2.0"
   }
