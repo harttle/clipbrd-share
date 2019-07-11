@@ -1,0 +1,28 @@
+{
+  "name": "clipbrd-share",
+  "version": "1.0.0",
+  "description": "Clipboard share via http supporting multiple MIME, multiple platforms",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "clipboard",
+    "http"
+  ],
+  "author": "harttle <yangjvn@126.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^6.0.1",
+    "eslint-config-standard": "^13.0.0",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0"
+  },
+  "dependencies": {
+    "fs-extra": "^8.1.0",
+    "socket.io-client": "^2.2.0"
+  }
+}
