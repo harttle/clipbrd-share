@@ -11,8 +11,8 @@ exports.connect = function (url, clipboard) {
     const msg = await clipboard.read()
     if (compare(msg, lastMsg)) {
       lastMsg = msg
-      console.log(`clipboard changed, sending ${msg.data.length} bytes of ${msg.mime}`)
-      socket.emit('message', msg)
+      console.log(`clipboard changed, ${msg.data.length} bytes of ${msg.mime}`)
+      msg.data.length && socket.emit('message', msg)
     }
   }, POLL_INTERVAL)
 

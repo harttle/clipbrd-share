@@ -9,6 +9,12 @@ pacman -S xclip         # ArchLinux
 apt-get install xclip   # Ubuntu
 ```
 
+## Features
+
+* Multiple platforms: OSX, Linux
+* Multiple MIMEs: text/plain, image/png
+* `libnotify` integration
+
 ## Usage
 
 Start the server:

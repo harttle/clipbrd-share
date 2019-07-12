@@ -4,12 +4,25 @@ exports.read = async function () {
   const mimes = await readTargets()
   if (mimes.includes('text/plain')) return readByMime('text/plain')
   if (mimes.includes('image/png')) return readByMime('image/png')
+  if (mimes.includes('STRING')) return readByMime('STRING', 'text/plain')
   return { mime: 'text/plain', data: Buffer.alloc(0) }
 }
 
 exports.write = async function ({ mime, data }) {
-  console.log(`${mime} received ${data.length} bytes`)
   writeByMime(mime, data)
+  notify(mime, data)
+}
+
+function notify (mime, data) {
+  const type = {
+    'text/plain': 'Text',
+    'image/png': 'Image'
+  }[mime]
+
+  command('notify-send', [
+    'clipbrd-share',
+    `${type} received, ${data.length} bytes`
+  ])
 }
 
 async function readTargets () {
@@ -28,12 +41,12 @@ async function writeByMime (mime, data) {
   )
 }
 
-async function readByMime (mime) {
+async function readByMime (mime, replace) {
   const data = await command(
     'xclip',
     ['-selection', 'clipboard', '-t', mime, '-o']
   )
-  return { mime, data }
+  return { mime: replace || mime, data }
 }
 
 function command (cmd, args, stdin) {
