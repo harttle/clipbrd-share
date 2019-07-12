@@ -9,7 +9,7 @@ exports.listen = function (port) {
 
     socket.on('message', ({ mime, data }) => {
       console.log(`${mime} received: ${data.length} bytes`)
-      socket.broadcast.emit('image', data)
+      socket.broadcast.emit('message', { mime, data })
     })
 
     socket.on('disconnect', () => {
