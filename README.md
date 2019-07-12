@@ -17,6 +17,12 @@ apt-get install xclip   # Ubuntu
 
 ## Usage
 
+Install:
+
+```bash
+npm i -g clipbrd-share
+```
+
 Start the server:
 
 ```bash
