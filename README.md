@@ -1,3 +1,14 @@
+## Dependencies
+
+**OSX**: all dependencies are bundled into this repo, no additional dependencies.
+
+**Linux**：[xclip](https://www.archlinux.org/packages/extra/x86_64/xclip/)
+
+```bash
+pacman -S xclip         # ArchLinux
+apt-get install xclip   # Ubuntu
+```
+
 ## Usage
 
 Start the server:
