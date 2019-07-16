@@ -4,7 +4,7 @@
 * Multiple MIMEs: text/plain, image/png
 * `libnotify` integration
 
-![image](https://user-images.githubusercontent.com/4427974/61269390-07a88980-a7d1-11e9-9ce6-5368e62cf8ea.png)
+![image](./doc/image-received.png)
 
 ## Dependencies
 
