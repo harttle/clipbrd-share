@@ -7,6 +7,10 @@
     "clipbrd-share-server": "./bin/server.js",
     "clipbrd-share-client": "./bin/client.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harttle/clipbrd-share.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
@@ -29,6 +33,7 @@
     "clipboardy": "^2.1.0",
     "debug": "^4.1.1",
     "fs-extra": "^8.1.0",
+    "socket.io": "^2.2.0",
     "socket.io-client": "^2.2.0"
   }
 }
