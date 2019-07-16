@@ -14,9 +14,9 @@ exports.read = async function () {
 
 exports.write = async function ({ mime, data }) {
   if (mime === 'text/plain') {
-    clipboardy.write(data.toString())
+    return clipboardy.write(data.toString())
   } else if (mime === 'image/png') {
-    writeImageToClipboard(data)
+    return writeImageToClipboard(data)
   }
 }
 
@@ -27,6 +27,7 @@ function writeImageToClipboard (img) {
     child.on('error', reject)
     child.stdin.write(img)
     child.stdin.end()
+    resolve()
   })
 }
 
