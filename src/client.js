@@ -1,5 +1,6 @@
 const debug = require('debug')('clipbrd-share:client')
 const io = require('socket.io-client')
+const { notify } = require('./notify')
 const POLL_INTERVAL = 1000
 const { Lock } = require('./lock')
 
@@ -30,6 +31,7 @@ exports.connect = function (url, clipboard) {
   socket.on('message', async (msg) => {
     await lock.acquire()
     console.log(`clipboard received ${msg.data.length} bytes of ${msg.mime}`)
+    notify(msg)
     await clipboard.write(msg)
     clipboardWritten = true
     lock.release()

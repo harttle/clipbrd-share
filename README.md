@@ -2,7 +2,7 @@
 
 * Multiple platforms: OSX, Linux
 * Multiple MIMEs: text/plain, image/png
-* `libnotify` integration
+* Desktop notifycation integrated
 
 ![image](./doc/image-received.png)
 
@@ -10,10 +10,10 @@
 
 **OSX**: all dependencies are bundled into this repo, no additional dependencies.
 
-**Linux**：[xclip](https://www.archlinux.org/packages/extra/x86_64/xclip/), [libnotify](https://www.archlinux.org/packages/extra/x86_64/libnotify/)
+**Linux**：[xclip](https://www.archlinux.org/packages/extra/x86_64/xclip/)
 
 ```bash
-pacman -S xclip libnotify
+pacman -S xclip
 ```
 
 ## Usage
@@ -38,4 +38,5 @@ URL=http://example.com:3000 clipbrd-share-client
 
 ## Thanks
 
-pngpaste/pngcopy binaries are built from: https://github.com/moicci/pngpaste
+* Image copy/paste binaries are built from: https://github.com/moicci/pngpaste
+* Desktop notifications are provided by: https://www.npmjs.com/package/node-notifier

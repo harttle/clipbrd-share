@@ -10,19 +10,6 @@ exports.read = async function () {
 
 exports.write = async function ({ mime, data }) {
   writeByMime(mime, data)
-  notify(mime, data)
-}
-
-function notify (mime, data) {
-  const type = {
-    'text/plain': 'Text',
-    'image/png': 'Image'
-  }[mime]
-
-  command('notify-send', [
-    'clipbrd-share',
-    `${type} received, ${data.length} bytes`
-  ])
 }
 
 async function readTargets () {
