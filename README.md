@@ -4,6 +4,8 @@
 * Multiple MIMEs: text/plain, image/png
 * Desktop notifycation integrated
 
+![image](./doc/image-received-osx.png)
+
 ![image](./doc/image-received.png)
 
 ## Dependencies
