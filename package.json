@@ -12,7 +12,8 @@
     "url": "git+https://github.com/harttle/clipbrd-share.git"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "true",
+    "lint": "eslint .",
     "start": "node server.js"
   },
   "keywords": [
@@ -21,13 +22,30 @@
   ],
   "author": "harttle <yangjvn@126.com>",
   "license": "ISC",
+  "release": {
+    "branch": "master",
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/git",
+      "@semantic-release/github"
+    ]
+  },
   "devDependencies": {
+    "@semantic-release/changelog": "^3.0.2",
+    "@semantic-release/commit-analyzer": "^6.1.0",
+    "@semantic-release/git": "^7.0.8",
+    "@semantic-release/npm": "^5.1.8",
+    "@semantic-release/release-notes-generator": "^7.1.4",
     "eslint": "^6.0.1",
     "eslint-config-standard": "^13.0.0",
     "eslint-plugin-import": "^2.18.0",
     "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.0"
+    "eslint-plugin-standard": "^4.0.0",
+    "semantic-release": "^15.13.14"
   },
   "dependencies": {
     "clipboardy": "^2.1.0",

@@ -1,10 +1,18 @@
 const { spawn } = require('child_process')
 
+const target2mime = {
+  'text/plain': 'text/plain',
+  'image/png': 'image/png',
+  STRING: 'text/plain',
+  UTF8_STRING: 'text/plain',
+  TEXT: 'text/plain'
+}
+
 exports.read = async function () {
-  const mimes = await readTargets()
-  if (mimes.includes('text/plain')) return readByMime('text/plain')
-  if (mimes.includes('image/png')) return readByMime('image/png')
-  if (mimes.includes('STRING')) return readByMime('STRING', 'text/plain')
+  const availableTargets = await readTargets()
+  for (const [target, mime] of Object.entries(target2mime)) {
+    if (availableTargets.includes(target)) return readByMime(target, mime)
+  }
   return { mime: 'text/plain', data: Buffer.alloc(0) }
 }
 
