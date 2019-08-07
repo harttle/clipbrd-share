@@ -1,3 +1,8 @@
+[![npm version](https://img.shields.io/npm/v/clipbrd-share.svg)](https://www.npmjs.org/package/clipbrd-share)
+[![downloads](https://img.shields.io/npm/dm/clipbrd-share.svg)](https://www.npmjs.org/package/clipbrd-share)
+[![Build Status](https://travis-ci.org/harttle/clipbrd-share.svg?branch=master)](https://travis-ci.org/harttle/clipbrd-share)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/harttle/clipbrd-share)
+
 ## Features
 
 * Multiple platforms: OSX, Linux
