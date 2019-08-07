@@ -1,43 +1,53 @@
-const clipboardy = require('clipboardy')
-const { spawn } = require('child_process')
+const { command } = require('./util')
 const { resolve } = require('path')
+const POLL_INTERVAL = 1000
+const debug = require('debug')('clipbrd-share:darwin')
+const bin = resolve(__dirname, '../../bin/osxclipboard')
+let lastCount = -1
 
-exports.read = async function () {
-  const text = await clipboardy.read()
-  if (text.length) {
-    return { mime: 'text/plain', data: Buffer.from(text) }
-  } else {
-    const img = await readImageFromClipboard()
-    return { mime: 'image/png', data: img }
-  }
+const PasteboardType2mime = {
+  'public.utf8-plain-text': 'text/plain',
+  'public.tiff': 'image/png'
 }
 
+const mime2PasteboardType = {
+  'text/plain': 'public.utf8-plain-text',
+  'image/png': 'public.tiff'
+}
+
+async function read (availableTypes) {
+  for (const [type, mime] of Object.entries(PasteboardType2mime)) {
+    if (availableTypes.includes(type)) return readByType(type, mime)
+  }
+  return { mime: 'text/plain', data: Buffer.alloc(0) }
+}
+
+async function readByType (type, mime) {
+  debug(`reading clipboard by type: ${type}`)
+  const data = await command(bin, ['--output', type])
+  return { mime, data }
+}
+
+async function status () {
+  const buffer = await command(bin, ['--status'])
+  return JSON.parse(buffer.toString())
+}
+
+exports.onChange = function (handler) {
+  setInterval(async function () {
+    const stat = await status()
+    if (stat.count > lastCount) {
+      lastCount = stat.count
+      handler(await read(stat.types))
+    }
+  }, POLL_INTERVAL)
+}
 exports.write = async function ({ mime, data }) {
-  if (mime === 'text/plain') {
-    return clipboardy.write(data.toString())
-  } else if (mime === 'image/png') {
-    return writeImageToClipboard(data)
+  const type = mime2PasteboardType[mime]
+  if (!type) {
+    console.error(`mime ${mime} not supported`)
+    return
   }
-}
-
-function writeImageToClipboard (img) {
-  const bin = resolve(__dirname, '../../bin/pngcopy')
-  return new Promise((resolve, reject) => {
-    const child = spawn(bin, ['-'], { encoding: 'buffer' })
-    child.on('error', reject)
-    child.stdin.write(img)
-    child.stdin.end()
-    resolve()
-  })
-}
-
-function readImageFromClipboard () {
-  const bin = resolve(__dirname, '../../bin/pngpaste')
-  return new Promise((resolve, reject) => {
-    const child = spawn(bin, ['-'], { encoding: 'buffer' })
-    let data = Buffer.alloc(0)
-    child.on('error', reject)
-    child.stdout.on('data', chunk => { data = Buffer.concat([data, chunk]) })
-    child.stdout.on('end', () => resolve(data))
-  })
+  await command(bin, ['--input', type], data)
+  lastCount++
 }

@@ -1,5 +1,5 @@
-const { spawn } = require('child_process')
-
+const { command } = require('./util')
+const POLL_INTERVAL = 1000
 const target2mime = {
   'text/plain': 'text/plain',
   'image/png': 'image/png',
@@ -8,7 +8,9 @@ const target2mime = {
   TEXT: 'text/plain'
 }
 
-exports.read = async function () {
+let lastContent = { mime: 'text/plain', data: Buffer.alloc(0) }
+
+async function read () {
   const availableTargets = await readTargets()
   for (const [target, mime] of Object.entries(target2mime)) {
     if (availableTargets.includes(target)) return readByMime(target, mime)
@@ -16,8 +18,24 @@ exports.read = async function () {
   return { mime: 'text/plain', data: Buffer.alloc(0) }
 }
 
+exports.onChange = function (cb) {
+  setInterval(async function () {
+    const content = await read()
+    if (compare(content, lastContent)) {
+      lastContent = content
+      cb(content)
+    }
+  }, POLL_INTERVAL)
+}
+
 exports.write = async function ({ mime, data }) {
+  lastContent = { mime, data }
   writeByMime(mime, data)
+}
+
+function compare (content, lastMsg) {
+  return content.mime !== lastMsg.mime ||
+    Buffer.compare(content.data, lastMsg.data)
 }
 
 async function readTargets () {
@@ -42,20 +60,4 @@ async function readByMime (mime, replace) {
     ['-selection', 'clipboard', '-t', mime, '-o']
   )
   return { mime: replace || mime, data }
-}
-
-function command (cmd, args, stdin) {
-  return new Promise((resolve, reject) => {
-    const child = spawn(cmd, args, { encoding: 'buffer' })
-    let data = Buffer.alloc(0)
-    child.on('error', reject)
-    child.stdout.on('data', chunk => {
-      data = Buffer.concat([data, chunk])
-    })
-    child.stdout.on('end', () => resolve(data))
-    if (stdin) {
-      child.stdin.write(stdin)
-      child.stdin.end()
-    }
-  })
 }

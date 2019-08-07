@@ -7,7 +7,7 @@ class Lock {
   }
 
   async acquire () {
-    debug('acquiring, queue:', this.queue)
+    debug('acquiring, queue length:', this.queue.length)
     return new Promise((resolve, reject) => {
       this.queue.push(resolve)
       if (this.queue.length === 1) {
@@ -17,7 +17,7 @@ class Lock {
   }
 
   release () {
-    debug('releasing, queue:', this.queue)
+    debug('releasing, queue length:', this.queue.length)
     this.queue.shift()
     if (this.queue.length) {
       this.queue[0]()
