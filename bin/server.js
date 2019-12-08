@@ -3,16 +3,10 @@
 const conf = require('../src/config')
 const server = require('../src/server')
 
-let port
-if (process.env.PORT) {
-  port = process.env.PORT
-  conf.set('port', port)
-} else {
-  console.log('PORT env not set, trying ~/.clipboard-sharerc:port')
-  port = conf.get('port')
-}
-if (!port) {
-  port = 3000
-}
+const port = process.env.PORT || 3000
+const host = process.env.HOST || '0.0.0.0'
 
-server.listen(port)
+conf.set('port', port)
+conf.set('host', host)
+
+server.listen(port, host)
